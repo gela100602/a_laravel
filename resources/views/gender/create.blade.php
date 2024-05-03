@@ -1,20 +1,18 @@
-{{-- tab title --}}
-<title>Create Gender</title>
+@extends('layout.main')
 
-{{-- side bar --}}
-@include('include.sidebar')
-
-{{-- html content --}}
 @section('content')
 
-    {{-- card --}}
-    <div class="card col-sm-6 mt-3 mx-auto">
+<div class="add-gender" style="display: flex;">
+    <aside class="sidebar">
+        @include('include.sidebar')
+    </aside>
+    <div class="card col-sm-4 mt-3 mx-auto">
+        <div class="card-header" style="padding: 12px; padding-left: 1rem; font-size: 1.1rem;">
+            Create Gender
+        </div>
         <div class="card-body">
-            <h5 clas="card-title">Create Gender</h5>
-            {{-- form POST method --}}
             <form action="/gender/store" method="post">
                 @csrf
-                {{-- gender field --}}
                 <div class="mb-3">
                     <label for="gender">Gender</label>
                     <input type="text" class="form-control" id="gender" name="gender" />
@@ -22,8 +20,10 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
-                {{-- save button --}}
-                <button type="sumbit" class="btn btn-success col-sm-3 float-end">Save Gender</button>
+                <button type="sumbit" class="btn btn-success w-25 float-end">Save</button>
+                <a href="/genders" class="btn btn-primary w-25 float-end me-2">Back</a>
             </form>
         </div>
     </div>
+</div>
+@endsection

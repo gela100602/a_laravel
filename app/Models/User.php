@@ -13,8 +13,9 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'table_users';
-    protected $primarykey = 'user_id';
+    protected $primaryKey = 'user_id';
     protected $fillable = [
+        'user_image',
         'first_name',
         'middle_name',
         'last_name',
@@ -41,4 +42,9 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
+
+    public function gender()
+    {
+        return $this->belongsTo('App\Models\Gender', 'gender_id');
+    }
 }

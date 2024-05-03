@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,26 +15,48 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome'); //welcome is the file in the views folder
+// Route::get('/', function () {
+//     return view('welcome'); //welcome is the file in the views folder
+// });
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', [UserController::class, 'login']);
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/login', [UserController::class, 'loginAuth']);
 });
 
-Route::get('/users', function () {
-    return view('user.index');
+Route::group(['middleware' => 'auth'], function () {
+    Route::controller(GenderController::class)->group(function () {
+        Route::get('/genders', 'index');
+        Route::get('/gender/create', 'create');
+        Route::get('/gender/view/{id}', 'show');
+        Route::get('/gender/edit/{id}', 'edit');
+        Route::get('/gender/delete/{id}', 'delete');
+    
+        Route::post('/gender/store', 'store');
+        Route::put('/gender/update/{gender}', 'update');
+        Route::delete('/gender/destroy/{gender}', 'destroy');
+    });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/home', 'index');
+        Route::get('/users', 'index');
+        Route::get('/users', 'index')->name('index');
+        Route::get('/user/create', 'create');
+        Route::get('/user/view/{id}', 'show');
+        Route::get('/user/edit/{id}', 'edit');
+        Route::get('/user/delete/{id}', 'delete');
+    
+        Route::post('/user/store', 'store');
+        Route::post('/process/logout', 'logout');
+    
+        Route::put('/user/update/{user}', 'update');
+        Route::delete('/user/destroy/{user}', 'destroy');
+    });
 });
 
-Route::get('/users/add', function () {
-    return view('user.add');
-});
-
-Route::get('/genders', [GenderController::class, 'index']);
-Route::get('/gender/create', [GenderController::class, 'create']);
-Route::get('/gender/view/{id}', [GenderController::class, 'show']);
-Route::post('/gender/edit/{id}', [GenderController::class, 'edit']);
 
 
-Route::post('/gender/store', [GenderController::class, 'store']);
-Route::post('/gender/update/{gender}', [GenderController::class, 'update']);
 
 
 

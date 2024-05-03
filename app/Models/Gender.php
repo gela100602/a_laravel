@@ -14,6 +14,6 @@ class Gender extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'table_genders';
-    protected $primarykey = 'gender_id';
+    protected $primaryKey = 'gender_id';
     protected $fillable = ['gender'];
 }

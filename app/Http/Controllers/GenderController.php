@@ -7,15 +7,6 @@ use Illuminate\Http\Request;
 
 class GenderController extends Controller
 {
-    // index
-    // show
-    // create
-    // store
-    // edit
-    // update
-    // delete
-
-
     public function index(){
         $table_genders = Gender::all(); // SELECT * FROM table_genders;
         return view('gender.index', compact('table_genders'));
@@ -41,7 +32,7 @@ class GenderController extends Controller
     }
 
     public function edit($id){
-        $gender = Gender::find($id); //SELECT * FROM table_gendes WHERE gender_id = $id;
+        $gender = Gender::find($id); //SELECT * FROM table_genders WHERE gender_id = $id;
         return view('gender.edit', compact('gender'));
     }
 
@@ -53,11 +44,16 @@ class GenderController extends Controller
         $gender->update($validated);
 
         return redirect('/genders')->with('message_success', 'Gender successfully updated!');
-
     }
 
-    public function delete(){
-        
+    public function delete($id){
+        $gender = Gender::find($id); // SELECT * FROM table_genders WHERE gender_id = $id;
+        return view('gender.delete', compact('gender'));
+    }
+
+    public function destroy(Request $request, Gender $gender){
+        $gender->delete($request);
+        return redirect('/genders')->with('message_success','Gender successfully deleted!');
     }
 
 }
